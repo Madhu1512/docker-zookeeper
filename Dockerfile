@@ -24,6 +24,7 @@ RUN apk update && \
     mkdir -p ${ZK_HOME}/transactions ${ZK_HOME}/snapshots && \
     curl -sO http://archive.apache.org/dist/zookeeper/zookeeper-${ZK_VERSION}/zookeeper-${ZK_VERSION}.tar.gz && \
     tar xzf zookeeper-${ZK_VERSION}.tar.gz  -C ${ZK_HOME} --strip-components=1 && \
+    ln -sf /dev/stdout /opt/zookeeper/zookeeper.out && \
     rm -rf zookeeper-*
 
 # Install Exhibitor
