@@ -60,12 +60,6 @@ else
   BACKUP_CONFIG="--configtype file --fsconfigdir /opt/zookeeper/local_configs --filesystembackup true"
 fi
 
-if [[ -n ${ZK_PASSWORD} ]]; then
-	SECURITY="--security web.xml --realm Zookeeper:realm --remoteauth basic:zk"
-	echo "zk: ${ZK_PASSWORD},zk" > realm
-fi
-
-
 if [[ -n $HTTP_PROXY_HOST ]]; then
     cat <<- EOF > /opt/exhibitor/proxy.properties
       com.netflix.exhibitor.s3.proxy-host=${HTTP_PROXY_HOST}
