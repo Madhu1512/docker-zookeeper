@@ -22,7 +22,7 @@ RUN apk update && \
     
     # Install Zookeeper
     mkdir -p ${ZK_HOME}/transactions ${ZK_HOME}/snapshots && \
-    curl -sO http://archive.apache.org/dist/zookeeper/zookeeper-${ZK_VERSION}/zookeeper-${ZK_VERSION}.tar.gz && \
+    curl -sO http://archive.apache.org/dist/zookeeper/stable/zookeeper-${ZK_VERSION}.tar.gz && \
     tar xzf zookeeper-${ZK_VERSION}.tar.gz  -C ${ZK_HOME} --strip-components=1 && \
     ln -sf /dev/stdout /opt/zookeeper/zookeeper.out && \
     rm -rf zookeeper-*
@@ -30,7 +30,8 @@ RUN apk update && \
 # Install Exhibitor
 ADD pom.xml ${EXBT_HOME}/pom.xml
 
-RUN mvn -f ${EXBT_HOME}/pom.xml clean package && \
+RUN curl -kL https://raw.github.com/Netflix/exhibitor/master/exhibitor-standalone/src/main/resources/buildscripts/standalone/maven/pom.xml -o ${EXBT_HOME}/pom.xml && \
+    mvn -f ${EXBT_HOME}/pom.xml clean package && \
     ln -s ${EXBT_HOME}/target/exhibitor*.jar ${EXBT_HOME}/exhibitor.jar && \
     chown -R nobody:nobody ${ZK_HOME} ${EXBT_HOME}
 
